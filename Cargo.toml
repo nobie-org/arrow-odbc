@@ -38,7 +38,8 @@ thiserror = "1.0.58"
 # features implying the use of UTF-16 for queries, connection strings and error messages. This
 # should work on any system
 [target.'cfg(target_os = "windows")'.dependencies]
-odbc-api = ">= 6, < 8"
+odbc-api = { git = "https://github.com/nobie-org/odbc-api", branch = "matt/feat/more-telemetry" }
+# odbc-api = ">= 6, < 8"
 
 # On linux we assume use of a UTF-8 locale. So we set the narrow features implying that for queries,
 # connection strings and error messages the driver and driver manager supply utf8-strings. This
@@ -47,7 +48,8 @@ odbc-api = ">= 6, < 8"
 # importantly, UTF-8 is likely to be more battled tested on these platforms, while UTF-16 is "only"
 # required by the standard.
 [target.'cfg(not(target_os = "windows"))'.dependencies]
-odbc-api = { version = ">= 6, < 8", features = ["narrow"] }
+odbc-api = { git = "https://github.com/nobie-org/odbc-api", branch = "matt/feat/more-telemetry", features = ["narrow"]} 
+# odbc-api = { version = ">= 6, < 8", features = ["narrow"] }
 
 [dev-dependencies]
 anyhow = "1.0.82"
