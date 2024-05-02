@@ -1,7 +1,7 @@
 use std::{char::decode_utf16, cmp::min, ffi::CStr, num::NonZeroUsize, sync::Arc};
 
 use arrow::array::{ArrayRef, StringBuilder};
-use log::warn;
+use log::{info, warn};
 use odbc_api::{
     buffers::{AnySlice, BufferDesc},
     DataType as OdbcDataType,
@@ -35,13 +35,23 @@ pub fn choose_text_strategy(
         let hex_len = apply_buffer_limit(hex_len.map(NonZeroUsize::get))?;
         wide_text_strategy(hex_len)
     } else {
+        log::info!("Log utf8 length {:?}", sql_type.utf8_len());
+        tracing::info!("utf8 length: {:?}", sql_type.utf8_len());
+
         let octet_len = sql_type
             .utf8_len()
             .map(Ok)
             .or_else(|| lazy_display_size().transpose())
             .transpose()
             .map_err(|source| ColumnFailure::UnknownStringLength { sql_type, source })?;
+
+        tracing::info!("octet_len: {:?}", octet_len);
+        info!("octet_len: {:?}", octet_len);
+
         let octet_len = apply_buffer_limit(octet_len.map(NonZeroUsize::get))?;
+
+        tracing::info!("octet_len: {:?}", octet_len);
+        info!("octet_len: {:?}", octet_len);
         // So far only Linux users seemed to have complained about panics due to garbage indices?
         // Linux usually would use UTF-8, so we only invest work in working around this for narrow
         // strategies

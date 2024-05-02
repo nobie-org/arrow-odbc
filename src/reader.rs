@@ -9,7 +9,7 @@ use arrow::{
     },
 };
 
-use log::debug;
+use log::{debug, info};
 use odbc_api::{
     buffers::{AnySlice, BufferDesc, Item},
     Bit, DataType as OdbcDataType, ResultSetMetadata,
@@ -149,6 +149,9 @@ pub fn choose_column_strategy(
             // with users.
             debug!("Relational type of column {}: {sql_type:?}", col_index - 1);
             let lazy_display_size = || query_metadata.col_display_size(col_index);
+
+            info!("Log choosing text strategy for column {}", col_index - 1);
+            tracing::info!("Choosing text strategy for column {}", col_index - 1);
             // Use the SQL type first to determine buffer length.
             choose_text_strategy(
                 sql_type,
