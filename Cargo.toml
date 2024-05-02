@@ -33,6 +33,7 @@ arrow = { version = ">= 29, < 52", default-features = false }
 chrono = "0.4.38"
 log = "0.4.21"
 thiserror = "1.0.58"
+tracing = "0.1.40"
 
 # On windows we can not assume the default locale to be UTF-8, so we compile odbc-api with default
 # features implying the use of UTF-16 for queries, connection strings and error messages. This
