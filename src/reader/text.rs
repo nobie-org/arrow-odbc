@@ -37,6 +37,7 @@ pub fn choose_text_strategy(
     } else {
         log::info!("Log utf8 length {:?}", sql_type.utf8_len());
         tracing::info!("utf8 length: {:?}", sql_type.utf8_len());
+        tracing::info("datatype {:?}", sql_type);
 
         let octet_len = sql_type
             .utf8_len()
